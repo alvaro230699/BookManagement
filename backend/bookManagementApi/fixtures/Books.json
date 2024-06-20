@@ -1,0 +1,72 @@
+[
+  {
+    "model": "bookManagementApi.book",
+    "pk": "6674b5f24633f7433318016d",
+    "fields": {
+      "created_at": "2024-06-20 16:11:18",
+      "updated_at": "2024-06-20 22:11:18",
+      "deleted_at": null,
+      "title": "Book 1",
+      "author": "Author 1",
+      "published_date": "2023-01-01",
+      "genre": "Fiction",
+      "price": 9.99
+    }
+  },
+  {
+    "model": "bookManagementApi.book",
+    "pk": "6674b5f24633f7433318017d",
+    "fields": {
+        "created_at": "2024-06-20 18:11:18",
+        "updated_at": "2024-06-20 22:11:18",
+        "deleted_at": null,
+        "title": "Book 2",
+        "author": "Author 2",
+        "published_date": "2022-05-15",
+        "genre": "Non-Fiction",
+        "price": 19.99
+    }
+  },
+  {
+    "model": "bookManagementApi.book",
+    "pk": "6674b5f24633f7433318018d",
+    "fields": {
+        "created_at": "2024-06-20 20:11:18",
+        "updated_at": "2024-06-20 20:11:18",
+        "deleted_at": null,
+        "title": "Book 3",
+        "author": "Author 2",
+        "published_date": "2022-05-15",
+        "genre": "Non-Fiction",
+        "price": 15.99
+    }
+  },
+  {
+    "model": "bookManagementApi.book",
+    "pk": "6674b5f24633f7433318019d",
+    "fields": {
+        "created_at": "2024-06-20 21:11:18",
+        "updated_at": "2024-06-20 21:11:18",
+        "deleted_at": null,
+        "title": "Book 4",
+        "author": "Author 2",
+        "published_date": "2022-05-15",
+        "genre": "Non-Fiction",
+        "price": 10.99
+    }
+  },
+  {
+    "model": "bookManagementApi.book",
+    "pk": "6674b5f24633f7433318020d",
+    "fields": {
+        "created_at": "2024-06-20 23:11:18",
+        "updated_at": "2024-06-20 23:11:18",
+        "deleted_at": null,
+        "title": "Book 5",
+        "author": "Author 2",
+        "published_date": "2024-05-15",
+        "genre": "Non-Fiction",
+        "price": 9.99
+    }
+  }
+]
