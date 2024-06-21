@@ -1,3 +1,7 @@
+import io
+from rest_framework.parsers import JSONParser
+
+
 def get_book_publish_status_by_path(path):
     status = path.split("/")[3].lower()
     assert status in ("published", "non-published")
@@ -17,3 +21,9 @@ def serialize_with_custom_serializer(serializer, **serializer_fields):
     serialize_data = serializer.parse_to_serialize(**serializer_fields)
     serializer_instance = serializer(serialize_data)
     return serializer_instance.data
+
+
+def get_json_response_from_client(raw_data):
+    stream = io.BytesIO(raw_data)
+    json_data = JSONParser().parse(stream)
+    return json_data

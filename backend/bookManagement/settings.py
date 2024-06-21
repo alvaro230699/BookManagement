@@ -20,6 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+URI_DDBB = config("DB_HOST").format(
+    username=config("DB_USERNAME"), password=config("DB_PASSWORD")
+)
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
 
@@ -82,9 +86,7 @@ DATABASES = {
         "ENGINE": config("DB_ENGINE"),
         "NAME": config("DB_NAME"),
         "CLIENT": {
-            "host": config("DB_HOST").format(
-                username=config("DB_USERNAME"), password=config("DB_PASSWORD")
-            ),
+            "host": URI_DDBB,
         },
     }
 }
@@ -108,7 +110,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-SWAGGER_SETTINGS = {"SECURITY_DEFINITIONS": {"Basic": {"type": "basic"}}}
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {"Basic": {"type": "basic"}},
+    "USE_SESSION_AUTH": False,
+}
 
 
 # Internationalization
