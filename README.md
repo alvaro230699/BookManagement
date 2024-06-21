@@ -16,7 +16,7 @@ the yearly average price of published books.
 
    ```bash
    git clone https://github.com/alvaro230699/BookManagement.git
-   cd backend
+   cd BookManagement/backend/
    ```
 
 2. **Create and activate the virtual environment**
