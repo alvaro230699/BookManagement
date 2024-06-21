@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-z3+q&fkk#3rim-@ix)cfw-ux2ez1mt!g5cp5+#ch9fxs(ho+vo"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG")
 
 ALLOWED_HOSTS = []
 
@@ -82,7 +82,9 @@ DATABASES = {
         "ENGINE": config("DB_ENGINE"),
         "NAME": config("DB_NAME"),
         "CLIENT": {
-            "host": config("DB_HOST"),
+            "host": config("DB_HOST").format(
+                username=config("DB_USERNAME"), password=config("DB_PASSWORD")
+            ),
         },
     }
 }
