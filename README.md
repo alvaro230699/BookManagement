@@ -15,7 +15,7 @@ the yearly average price of published books.
 1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/alvaro230699/BookManagement.git
    cd backend
    ```
 
