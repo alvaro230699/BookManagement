@@ -7,7 +7,10 @@ class Command(BaseCommand):
     help = "Seed the database with initial data"
 
     def handle(self, *args, **kwargs):
-        json_files = ["bookManagementApi/fixtures/Books.json"]
+        json_files = [
+            "bookManagementApi/fixtures/Books.json",
+            "bookManagement/fixtures/Users.json",
+        ]
 
         for json_file in json_files:
             try:

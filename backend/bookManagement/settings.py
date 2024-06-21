@@ -12,10 +12,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from decouple import config, Csv
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+LOGIN_REDIRECT_URL = "/api/documentation"
+LOGOUT_REDIRECT_URL = "/login"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_simplejwt",
     "drf_yasg",
     "bookManagementApi",
 ]
@@ -77,6 +81,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "bookManagement.wsgi.application"
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -109,10 +119,46 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
 
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {"Basic": {"type": "basic"}},
     "USE_SESSION_AUTH": False,
+    "LOGIN_URL": "user_login",
+    "LOGOUT_URL": "user_logout",
+    "DOC_EXPANSION": None,
+    "APIS_SORTER": None,
+    "OPERATIONS_SORTER": None,
+    "JSON_EDITOR": False,
+    "SHOW_REQUEST_HEADERS": True,
+    "SUPPORTED_SUBMIT_METHODS": ["get", "post", "put", "delete", "patch"],
+    "VALIDATOR_URL": "",
+    "is_authenticated": False,
+    "is_superuser": False,
+    "unauthenticated_user": None,
+    "permission_denied_handler": None,
+    "ACCEPT_HEADER_VERSION": None,  # e.g. '1.0'
+    "CUSTOM_HEADERS": {},  # A dictionary of key/vals to override headers
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
 
 

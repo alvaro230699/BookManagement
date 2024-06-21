@@ -20,6 +20,11 @@ from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from django.contrib.auth import views as auth_views
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -42,4 +47,8 @@ urlpatterns = [
         name="schema-swagger-ui",
     ),
     path("api/", include("bookManagementApi.urls")),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("login/", auth_views.LoginView.as_view(), name="user_login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="user_logout"),
 ]

@@ -11,4 +11,9 @@ urlpatterns = [
         AverageBookPriceView.as_view(),
         name="published-book-yearly-average-price",
     ),
+    path(
+        "books/deleted",
+        BookViewSet.as_view({"get": "list"}),
+        name="deleted-books",
+    ),
 ]

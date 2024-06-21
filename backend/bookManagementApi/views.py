@@ -1,7 +1,8 @@
 from rest_framework import viewsets, pagination, views
 from rest_framework.response import Response
 from rest_framework import status
-from django.http import Http404
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from bookManagementApi.serializers import BookSerializer, AverageBookPriceSerializer
 from bookManagementApi.models import Book
 from bson import ObjectId
@@ -10,6 +11,11 @@ from bookManagementApi.utils import (
     serialize_with_custom_serializer,
 )
 from django.utils.translation import gettext_lazy as _
+from rest_framework.permissions import IsAuthenticated
+from bookManagementApi.utils import (
+    swagger_auto_schema_for_non_get_methods,
+    get_book_delete_status_by_path,
+)
 
 
 class BookPagination(pagination.PageNumberPagination):
@@ -18,24 +24,78 @@ class BookPagination(pagination.PageNumberPagination):
     max_page_size = 20
 
 
+@swagger_auto_schema_for_non_get_methods(BookSerializer)
 class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     pagination_class = BookPagination
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = Book.objects.get_ordered_books()
+        is_deleted = get_book_delete_status_by_path(self.request.path) == "deleted"
+        if is_deleted:
+            qs = Book.objects.get_deleted_books()
+        else:
+            qs = Book.objects.get_ordered_books()
         return qs
 
     def get_object(self):
         self.kwargs["pk"] = ObjectId(self.kwargs.get("pk"))
         return super().get_object()
 
+    @swagger_auto_schema(
+        operation_description="Retrieve average price of requested published year book",
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="JWT token in 'Bearer <token>' format",
+                type=openapi.TYPE_STRING,
+                required=True,
+            ),
+        ],
+    )
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_description="Retrieve average price of requested published year book",
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="JWT token in 'Bearer <token>' format",
+                type=openapi.TYPE_STRING,
+                required=True,
+            ),
+        ],
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 class AverageBookPriceView(views.APIView):
-    # year_query_param = None
-    year_query_description = _("Year of the published books.")
+    permission_classes = [IsAuthenticated]
     serializer = AverageBookPriceSerializer
 
+    @swagger_auto_schema(
+        operation_description="Retrieve average price of requested published year book",
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="JWT token in 'Bearer <token>' format",
+                type=openapi.TYPE_STRING,
+                required=True,
+            ),
+            openapi.Parameter(
+                "year",
+                openapi.IN_PATH,
+                description="Year of the published books.",
+                type=openapi.TYPE_STRING,
+                required=True,
+            ),
+        ],
+    )
     def get(self, request, year):
         try:
             is_published = get_book_publish_status_by_path(request.path) == "published"
